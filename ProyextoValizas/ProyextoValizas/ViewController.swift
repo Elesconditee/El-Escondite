@@ -14,8 +14,17 @@ import CoreLocation
 class ViewController: UIViewController, SRCountdownTimerDelegate , CLLocationManagerDelegate{
     
 let locationManager = CLLocationManager()
+    var beaconRegion: CLBeaconRegion!
+    var manager: CLLocationManager?
+ 
+   
     
-    var nClase = " "
+    let miBaliza = Baliza(uuid: "f7826da6-4fa2-4e98-8024-bc5b71e0893e",
+                          major: 58387,
+                          minor: 33802,
+                          id: "com.jaureguialzo.ejemplobeacon")
+    
+   
     
     @IBOutlet weak var contadorSOS: SRCountdownTimer!
     
@@ -23,43 +32,53 @@ let locationManager = CLLocationManager()
         super.viewDidLoad()
         
         contadorSOS.delegate = self
-        
-       
+
+        self.manager = CLLocationManager()
+        manager?.delegate = self
+        enableLocationServices()
+    
+         beaconRegion = CLBeaconRegion(proximityUUID: UUID(uuidString: miBaliza.uuid)!, identifier: miBaliza.id)
         
     }
     
-    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        if(beacons.count == 0) { return }
-        
-        let beacon = beacons.last!
-        
-        if (beacon.proximity == .unknown) {
-            nClase = "Desconocida"
-            return
-        } else if (beacon.proximity == .immediate) {
-            nClase = "Muy cerca \(beacon.major)"
-            
-            
-        } else if (beacon.proximity == .near) {
-            nClase = "Cerca"
-        } else if (beacon.proximity == .far) {
-            nClase = "Lejos"
-        }
-        
        
         
+    
+    func enableLocationServices() {
+        //locationManager.delegate = self
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            break
+            
+        case .restricted, .denied:
+            print("No tenemos acceso a la localización")
+            
+            break
+            
+        case .authorizedWhenInUse:
+            print("Localización sólo al usar la aplicación")
+            
+            break
+            
+        case .authorizedAlways:
+           print("Localización permanente")
+            
+            break
+        }
+    
     }
 
+   
+    
     
     @IBAction func test(_ sender: Any) {
         
-        locationManager.delegate = self
-        
-        locationManager.requestWhenInUseAuthorization()
-        
-        
+        self.manager?.startMonitoring(for: self.beaconRegion!)
+    
         let alertController = UIAlertController(title: "iOScreator", message:
-            nClase, preferredStyle: UIAlertControllerStyle.alert)
+            "Aqui el mensajito", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
@@ -94,6 +113,53 @@ let locationManager = CLLocationManager()
         // Dispose of any resources that can be recreated.
     }
 
+    func locationManager(_ manager: CLLocationManager,
+                         didStartMonitoringFor region: CLRegion) {
+        locationManager.requestState(for: region)
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didDetermineState state: CLRegionState,
+                         for region: CLRegion) {
+        if state == .inside {
+            locationManager.startRangingBeacons(in: beaconRegion)
+        }
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didRangeBeacons beacons: [CLBeacon],
+                         in region: CLBeaconRegion) {
+        
+        guard let nearestBeacon = beacons.first else { return }
+        
+        switch nearestBeacon.proximity {
+        case .far:
+            print("Lejos")
+        case .immediate:
+            view.backgroundColor = .green
+            print("Cerca")
+        case .near:
+            view.backgroundColor = .yellow
+            print("Medio")
+        default:
+            view.backgroundColor = .red
+            print("Otro")
+        }
+        
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error) {
+        print(error.localizedDescription)
+    }
 
 }
-

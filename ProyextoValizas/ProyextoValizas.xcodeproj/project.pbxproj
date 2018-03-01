@@ -18,6 +18,7 @@
 		C326B8442023B48D00019605 /* MMSlidingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C326B8422023B48C00019605 /* MMSlidingButton.swift */; };
 		C326B8452023B48D00019605 /* BotonConBorde.swift in Sources */ = {isa = PBXBuildFile; fileRef = C326B8432023B48D00019605 /* BotonConBorde.swift */; };
 		C38A23E220360D1A0084DDF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C38A23E120360D1A0084DDF5 /* GoogleService-Info.plist */; };
+		C3D3170420487C4000F82AA8 /* Baliza.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D3170320487C4000F82AA8 /* Baliza.swift */; };
 		FE672297346DC9112572A5FB /* Pods_ProyextoValizasTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51711D44BE1198FE3AACCBE5 /* Pods_ProyextoValizasTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		C326B8432023B48D00019605 /* BotonConBorde.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BotonConBorde.swift; sourceTree = "<group>"; };
 		C326B8462023B51C00019605 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "/Users/8fdam05/Desktop/El-Escondite/ProyextoValizas/ProyextoValizas/LaunchScreen.storyboard"; sourceTree = "<absolute>"; };
 		C38A23E120360D1A0084DDF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C3D3170320487C4000F82AA8 /* Baliza.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baliza.swift; sourceTree = "<group>"; };
 		CF2FAB9B220DCFDC315B8CF7 /* Pods-ProyextoValizasUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProyextoValizasUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProyextoValizasUITests/Pods-ProyextoValizasUITests.release.xcconfig"; sourceTree = "<group>"; };
 		CFFC7A373ED4F49B52759827 /* Pods-ProyextoValizasUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProyextoValizasUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProyextoValizasUITests/Pods-ProyextoValizasUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E0D7B7468680CC45E3A36642 /* Pods-ProyextoValizasTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProyextoValizasTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProyextoValizasTests/Pods-ProyextoValizasTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				AE52CF4120222D8000E20463 /* Assets.xcassets */,
 				C326B8462023B51C00019605 /* LaunchScreen.storyboard */,
 				AE52CF4620222D8000E20463 /* Info.plist */,
+				C3D3170320487C4000F82AA8 /* Baliza.swift */,
 			);
 			path = ProyextoValizas;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 			files = (
 				C326B8442023B48D00019605 /* MMSlidingButton.swift in Sources */,
 				C326B8452023B48D00019605 /* BotonConBorde.swift in Sources */,
+				C3D3170420487C4000F82AA8 /* Baliza.swift in Sources */,
 				AE52CF3D20222D8000E20463 /* ViewController.swift in Sources */,
 				AE52CF3B20222D8000E20463 /* AppDelegate.swift in Sources */,
 			);
