@@ -78,7 +78,7 @@ let locationManager = CLLocationManager()
         self.manager?.startMonitoring(for: self.beaconRegion!)
     
         let alertController = UIAlertController(title: "iOScreator", message:
-            "Aqui el mensajito", preferredStyle: UIAlertControllerStyle.alert)
+            "Aqui va la baliza mas cercana", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
