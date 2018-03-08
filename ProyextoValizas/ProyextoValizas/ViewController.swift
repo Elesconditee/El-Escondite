@@ -129,25 +129,34 @@ class ViewController: UIViewController, SRCountdownTimerDelegate , CLLocationMan
     func locationManager(_ manager: CLLocationManager,
                          didRangeBeacons beacons: [CLBeacon],
                          in region: CLBeaconRegion) {
+    
         
         guard let nearestBeacon = beacons.first else { return }
-
+        
+        if nearestBeacon.major == 58387 && nearestBeacon.minor == 33802{
+            
         print(nearestBeacon)
 
         switch nearestBeacon.proximity {
         case .far:
+            view.backgroundColor = .red
             print("Lejos")
+            print(nearestBeacon.rssi)
+            
         case .immediate:
             view.backgroundColor = .green
             print("Cerca")
+            print(nearestBeacon.rssi)
         case .near:
             view.backgroundColor = .yellow
             print("Medio")
+            print(nearestBeacon.rssi)
         default:
-            view.backgroundColor = .red
+            view.backgroundColor = .blue
             print("Otro")
+            print(nearestBeacon.rssi)
         }
-        
+    }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
