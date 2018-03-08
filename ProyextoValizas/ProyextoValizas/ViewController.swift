@@ -13,11 +13,8 @@ import CoreLocation
 
 class ViewController: UIViewController, SRCountdownTimerDelegate , CLLocationManagerDelegate{
     
-let locationManager = CLLocationManager()
-    var beaconRegion: CLBeaconRegion!
+    var region: CLBeaconRegion!
     var manager: CLLocationManager?
- 
-   
     
     let miBaliza = Baliza(uuid: "f7826da6-4fa2-4e98-8024-bc5b71e0893e",
                           major: 58387,
@@ -34,10 +31,10 @@ let locationManager = CLLocationManager()
         contadorSOS.delegate = self
 
         self.manager = CLLocationManager()
-        manager?.delegate = self
+
         enableLocationServices()
-    
-         beaconRegion = CLBeaconRegion(proximityUUID: UUID(uuidString: miBaliza.uuid)!, identifier: miBaliza.id)
+
+        region = CLBeaconRegion(proximityUUID: UUID(uuidString: miBaliza.uuid)!, identifier: miBaliza.id)
         
     }
     
@@ -45,11 +42,11 @@ let locationManager = CLLocationManager()
         
     
     func enableLocationServices() {
-        //locationManager.delegate = self
-        
+        manager?.delegate = self
+
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            manager?.requestWhenInUseAuthorization()
             break
             
         case .restricted, .denied:
@@ -75,8 +72,8 @@ let locationManager = CLLocationManager()
     
     @IBAction func test(_ sender: Any) {
         
-        self.manager?.startMonitoring(for: self.beaconRegion!)
-    
+        self.manager?.startMonitoring(for: self.region!)
+
         let alertController = UIAlertController(title: "iOScreator", message:
             "Aqui va la baliza mas cercana", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
@@ -115,24 +112,28 @@ let locationManager = CLLocationManager()
 
     func locationManager(_ manager: CLLocationManager,
                          didStartMonitoringFor region: CLRegion) {
-        locationManager.requestState(for: region)
+        manager.startRangingBeacons(in: region as! CLBeaconRegion) // Para pruebas
     }
     
-    func locationManager(_ manager: CLLocationManager,
-                         didDetermineState state: CLRegionState,
-                         for region: CLRegion) {
-        if state == .inside {
-            locationManager.startRangingBeacons(in: beaconRegion)
-        }
-        
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        manager.startRangingBeacons(in: region as! CLBeaconRegion)
     }
     
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        manager.stopRangingBeacons(in: region as! CLBeaconRegion)
+    }
+
     func locationManager(_ manager: CLLocationManager,
                          didRangeBeacons beacons: [CLBeacon],
                          in region: CLBeaconRegion) {
         
         guard let nearestBeacon = beacons.first else { return }
-        
+
+        print(nearestBeacon)
+
         switch nearestBeacon.proximity {
         case .far:
             print("Lejos")
@@ -148,15 +149,10 @@ let locationManager = CLLocationManager()
         }
         
     }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
-    
-    
-    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-        print(error.localizedDescription)
-    }
-    
     
     func locationManager(_ manager: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error) {
         print(error.localizedDescription)
